@@ -1,6 +1,9 @@
 <?php
 session_start();
 ?>
+    <!-- Add SweetAlert2 CSS and JS links -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.3.2/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.3.2/dist/sweetalert2.all.min.js"></script>
 <?php
 
 include ("db_conection.php");
@@ -14,8 +17,28 @@ if (isset($_POST['user_login'])) {
 
     if ($user->email_verified_at == null) {
         //redirect to email verification
-        die("Please verify your email in <a href='email-verification.php?email=" . $user_email . "'>from here</a>");
-    }
+        // die("Please verify your email in <a href='email-verification.php?email=" . $user_email . "'>from here</a>");
+
+        die("<script>
+        document.addEventListener('DOMContentLoaded', () => {
+        Swal.fire({
+            title: 'Please verify email address',
+            text: 'In order to enjoy the privileges of DFFRNT clothing, please verify your email address:',
+            imageUrl: 'assets/img/email-icon.png',
+            imageWidth: 300,
+            imageHeight: 200,
+            imageAlt: 'Verify Email Icon',
+            confirmButtonText: 'Send Verification Email',
+            confirmButtonColor: '#3085d6',
+            allowOutsideClick: false
+          }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = 'email-verification.php?email=" . $user_email . "';
+            }
+          });
+        });
+          </script>");
+        }
 
     if (mysqli_num_rows($run)) {
         echo "<script>alert('You're successfully login!')</script>";
