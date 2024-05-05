@@ -145,6 +145,8 @@ function confirmLogout() {
 				  <th>Quantity</th>
                   <th>Size</th>
 				  <th>Total</th>
+                  <th>Order Status</th>
+                  <th></th>
                   
                  
                 </tr>
@@ -162,8 +164,9 @@ include("config.php");
 		{
 			extract($row);
 			
-			
+            $button_disabled = $order_status !== 'Pending'; // Make button unclickable if order status is not 'Pending'
 			?>
+            
                 <tr>
                   
                  <td><?php echo $order_name; ?></td>
@@ -172,8 +175,8 @@ include("config.php");
 				 <td><?php echo $order_quantity; ?></td>
                  <td><?php echo $order_size;?></td>
 				 <td>&#8369; <?php echo $order_total; ?> </td>
-				 
-				 
+                 <td><?php echo $order_status; ?> </td>
+                 <td><button type="button" <?php echo $button_disabled ? 'disabled' : ''; ?>>Order Received</button></td>
                 </tr>
 
                
