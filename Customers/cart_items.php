@@ -277,7 +277,7 @@ if (isset($_GET['update_id'])) {
                     //echo "<a class='btn btn-block btn-success' href='?update_id=" . $user_id . "'><span class='glyphicon glyphicon-shopping-cart'></span> Cash On Delivery</a>";
                 
                     echo "<select id='payment_method' name='payment_method' class='form-control' style='width: auto;'>";
-                    echo "<option value='gcash'>GCash</option>";
+                    echo "<option value='gcash'>Online Payment</option>";
                     echo "<option value='cod'>Cash On Delivery</option>";
                     echo "</select>";
 

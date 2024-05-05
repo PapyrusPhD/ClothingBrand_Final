@@ -76,6 +76,9 @@ if (isset($_GET['update_id'])) {
     <script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
 
+ <!-- Add SweetAlert2 CSS and JS links -->
+ <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.3.2/dist/sweetalert2.min.css">
+ <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.3.2/dist/sweetalert2.all.min.js"></script>
 
 
 
@@ -243,16 +246,42 @@ if (isset($_GET['update_id'])) {
                     $displayStatus = "Not Paid/Cancelled Payment";
                 }
                 // Your existing PHP code...
-                echo '<center>';
-                echo '<h4>Reference No</h4>';
-                // echo '<label class="control-label">Payment</label>';
-                echo '<h5 style="color:black;" name="order_payment">' . $_SESSION['ReferenceNumber'] . '</h5>';
-                echo '<h4 style="color:black;" name="order_status">' . $displayStatus . '</h4>';
-                // echo '<input style="width: auto;" class="form-control" type="text" name="order_payment" oninput="this.value = this.value.replace(/[^0-9]/g, \'\').substring(0, 13)" maxlength="13" required title="Enter Gcash Reference No." required />';
+                // echo '<center>';
+                // echo '<h4>Reference No</h4>';
+                // // echo '<label class="control-label">Payment</label>';
+                // echo '<h5 style="color:black;" name="order_payment">' . $_SESSION['ReferenceNumber'] . '</h5>';
+                // echo '<h4 style="color:black;" name="order_status">' . $displayStatus . '</h4>';
+                // // echo '<input style="width: auto;" class="form-control" type="text" name="order_payment" oninput="this.value = this.value.replace(/[^0-9]/g, \'\').substring(0, 13)" maxlength="13" required title="Enter Gcash Reference No." required />';
             
-                echo "<br>";
-                echo "<a class='btn btn-block btn-success' href='javascript:void(0);' onclick='confirmPurchase(" . $user_id . ")' id='orderButton'><span class='glyphicon glyphicon-shopping-cart'></span> Order</a>";
-                echo '</center>';
+                // echo "<br>";
+                // echo "<a class='btn btn-block btn-success' href='javascript:void(0);' onclick='confirmPurchase(" . $user_id . ")' id='orderButton'><span class='glyphicon glyphicon-shopping-cart'></span> Order</a>";
+                // echo '</center>';
+
+                echo '
+                <script>
+                document.addEventListener("DOMContentLoaded", () => {
+                    const referenceNumber = ' . json_encode($_SESSION["ReferenceNumber"]) . ';
+                    Swal.fire({
+                        title: "Not Paid/Cancelled Payment",
+                        text: "Reference No: " + referenceNumber,
+                        icon: "error",
+                        showCancelButton: true,
+                        confirmButtonColor: "#3085d6",
+                        cancelButtonColor: "#d33",
+                        confirmButtonText: "Try again",
+                        cancelButtonText: "Return to Home Page",
+                        allowOutsideClick: false,
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.history.back();
+                        } else {
+                            window.location.href = "index.php";
+                        }
+                    });
+                });
+                </script>
+                ';
+                
                 echo "<script>
                 function confirmPurchase(userId) {
                 var referenceNumber = document.getElementsByName('order_payment').value;
