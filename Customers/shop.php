@@ -303,16 +303,14 @@ function confirmLogout() {
   }
 }
 </script>
+
                         </ul>
                     </li>
                 </ul>
             </div>
         </nav>
 
-      
 				<div id="page-wrapper">
-
-			 
 			<div class="alert alert-default" style="color:white;background-color:#fff">
          <center><h3 style="color:black;">  <span class="glyphicon glyphicon-shopping-cart" style="color:black;"></span>  Be DFFRNT like no other</h3></center>
         </div>
@@ -346,14 +344,20 @@ $query=mysqli_query($conn,"select * from items LIMIT $start, $limit");
 while($query2=mysqli_fetch_array($query))
 {
 	
-	echo "<div class='col-sm-3'><div class='panel panel-default' style='border-color:#000;'>
+	echo 	"
+
+	
+
+	
+	
+	<div class='col-sm-3'><div class='panel panel-default' style='border-color:#000;'>
             <div class='panel-heading' style='color:white;background-color : #666666;'>
             <center> 
 <textfield style='text-align:center;background-color: white;' class='form-control' rows='1' disabled>".$query2['item_name']."</textfield>
 			</center>
             </div>
             <div class='panel-body'>
-           <a class='fancybox-buttons' href='../Admin/item_images/".$query2['item_image']."' data-fancybox-group='button' title='Page ".$id."- ".$query2['item_name']."'>
+           <a id='item_".$query2['item_id']."'data-toggle='modal' data-target='#myModal' href='../Admin/item_images/".$query2['item_image']."' data-fancybox-group='button' title='Page ".$id."- ".$query2['item_name']."'>
 					
 					<img src='../Admin/item_images/".$query2['item_image']."' class='img img-thumbnail'  style='auto' />
 					</a>
@@ -365,13 +369,55 @@ while($query2=mysqli_fetch_array($query))
 									<center>	<a class='btn btn-block btn-danger' href='add_to_cart.php?cart=".$query2['item_id']."'><span class='glyphicon glyphicon-shopping-cart'></span></a></center>
             </div>
           </div>
-        </div>";
-			
+        </div>
+		
+		
+		
+		
+		
+		";
+		
+		
+		echo "<div class='modal fade' id='myModal' role='dialog'>
+		<div class='modal-dialog'>
+		
+		  <!-- Modal content-->
+		  <div class='modal-content'>
+			<div class='modal-header'>
+			  <button type='button' class='close' data-dismiss='modal'>&times;</button>
+			  <h4 class='modal-title'></h4>
+			</div>
+			<div class='modal-body'>
+			<div class='flex-contain'>
+			<img src='' class='img img-thumbnail modal-img'  style='height: 400px;' />
+			<div class='flex-contain column-direction modal-text'> 
+			<div class='item-title no-wrap'></div>
+			<div class='item-price py-2'></div>
+
+			<a class='item-checkout btn btn-block btn-danger  py-2' href=''><span class='glyphicon glyphicon-shopping-cart'></span> Add to cart</a>
+
+
+
+			  <div class='item-desc py-2'>Our DFFRNT t-shirt is designed to make you stand out with its bold and unique statement. This soft, comfortable tee features the phrase DFFRNT Be Like No Other
+			  for an unapologetically distinctive look. Ideal for those who embrace their individuality and express themselves with confidence.</div>
+
+			  </div>
+			</div>
+			</div>
+			<div class='modal-footer'>
+			  <button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>
+			</div>
+		  </div>
+		  
+		</div>
+		</div>";		
 	
 }
 
 echo "<div class='container'>";
 echo "</div>";
+
+
 
 
 
@@ -432,7 +478,7 @@ echo "</ul></center>";
     <!-- /#wrapper -->
 
 	
-	<!-- Mediul Modal -->
+	<!-- Modal Start -->
 	<div class="modal fade" id="setAccount" tabindex="-1" role="dialog" aria-labelledby="myMediulModalLabel">
           <div class="modal-dialog modal-sm">
             <div style="color:white;background-color:#1b2529" class="modal-content">
@@ -531,6 +577,41 @@ echo "</ul></center>";
         $('#priceinput').keypress(function (event) {
             return isNumber(event, this)
         });
+
+
+function handleClick(elementId, newText, newPrice, newImage, newLink, newDescription) {
+    // Add an event listener to the specified element
+    document.querySelector(`#${elementId}`).addEventListener('click', function() {
+        // Select the <h4 class='modal-title'></h4> element
+        var modalTitle = document.querySelector('h4.modal-title');
+		var itemTitle = document.querySelector('div.item-title');
+		var itemImage = document.querySelector('img.modal-img');
+		var itemCheckout = document.querySelector('a.item-checkout');
+		var itemDesc = document.querySelector('div.item-desc');
+		var itemPrice = document.querySelector('div.item-price');
+        
+        // Check if the <h4> element already contains the specified text
+        if (!modalTitle.textContent.includes(newText)) {
+            // Set the new text to the modal title
+            modalTitle.textContent = newText;
+			itemTitle.textContent = newText;
+			itemImage.src = newImage;
+			itemCheckout.href = newLink;
+			itemDesc.textContent = newDescription;
+			itemPrice.textContent = newPrice;
+        }
+    });
+}
+
+// Use the function to add event listeners for each element with its corresponding text
+handleClick('item_5', 'DFFRNT Be Like No Other','Price: ₱ 550','../Admin/item_images/DFFRNT APPAREL.jpg','add_to_cart.php?cart=5','Our DFFRNT t-shirt is designed to make you stand out with its bold and unique statement. This soft, comfortable tee features the phrase DFFRNT Be Like No Other for an unapologetically distinctive look. Ideal for those who embrace their individuality and express themselves with confidence.');
+handleClick('item_6', 'DFFRNT BLAST OFF','Price: ₱ 450','../Admin/item_images/DFFRNT BLAST OFF.jpg','add_to_cart.php?cart=6','Our royal blue shirt with the DFFRNT BLAST OFF design is a bold statement piece for any wardrobe. Show off your unique style with this striking graphic, perfect for adding a pop of color and attitude to your outfit. Pair it with your favorite jeans or shorts for a cool, casual look. Made with high-quality fabric for lasting comfort and durability. Stand out and express yourself with this exclusive design!');
+handleClick('item_7', 'DFFRNT GEAR 5th','Price: ₱ 560','../Admin/item_images/DFFRNT GEARTH 5th.webp','add_to_cart.php?cart=7','Unleash your style with the DFFRNT GEAR 5th Bistre Brown T-Shirt. This unique piece features bold lettering across the chest, celebrating the next level of fashion-forward design. Made from premium cotton for all-day comfort and durability.');
+handleClick('item_8', 'DFFRNT MUGIWARA','Price: ₱ 355','../Admin/item_images/DFFRNT MUGIWARA.webp','add_to_cart.php?cart=8','Our ivory white t-shirt showcases the bold DFFRNT MUGIWARA design across the chest, inspired by the legendary pirate style. Crafted for comfort and style, this tee is perfect for making a statement. DETAILS: Soft, breathable fabric Classic fit Ribbed crew neckline');
+handleClick('item_9', 'DFFRNT THERAPY','Price: ₱ 590','../Admin/item_images/DFFRNT THERAPY.webp','add_to_cart.php?cart=9','Our midnight black t-shirt features the bold statement "DFFRNT THERAPY" emblazoned across the chest, reflecting your unique and unconventional style. This striking piece is perfect for making a statement and expressing your individuality.');
+
+
+
     });
   
     function isNumber(evt, element) {
